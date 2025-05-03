@@ -1,21 +1,55 @@
-# eco_calculator_app.py
 import streamlit as st
 
-st.title(" Eco Calculator")
+st.set_page_config(page_title="Eco Calculator", layout="centered")
 
-st.markdown("### Diet-related Emissions")
-meat_consumption = st.number_input("Enter your meat consumption (kg/week):", min_value=0.0)
-dairy_consumption = st.number_input("Enter your dairy consumption (litres/week):", min_value=0.0)
+st.title("🌿 Welcome to the Eco Calculator")
 
-st.markdown("### Travel-related Emissions")
-car_distance = st.number_input("Distance travelled by car per week (km):", min_value=0.0)
-flight_hours = st.number_input("Number of flight hours per year:", min_value=0.0)
+st.write("Estimate your weekly carbon emissions and get personalized eco tips!")
 
-if st.button("Calculate Impact"):
-    # Replace these with your actual calculations
-    diet_impact = meat_consumption * 27 + dairy_consumption * 3
-    travel_impact = car_distance * 0.2 + flight_hours * 90
-    total_impact = diet_impact + travel_impact
+# User input section
+st.header("Lifestyle Details")
 
-    st.success(f"🌍 Your estimated CO₂ impact is {total_impact:.2f} kg/week")
+diet_type = st.selectbox("🍽️ What best describes your diet?", 
+    ["Vegan", "Vegetarian", "Omnivore", "Heavy Meat Eater"])
 
+car_km_per_week = st.number_input("🚗 How many kilometers do you travel by car per week?", min_value=0.0, step=1.0)
+
+electricity_kwh_per_week = st.number_input("💡 How much electricity do you use per week (in kWh)?", min_value=0.0, step=1.0)
+
+flight_hours_per_month = st.number_input("✈️ Approximate hours you spend flying per **month**?", min_value=0.0, step=1.0)
+
+# Emission factors (rough estimates in kg CO₂e per unit)
+EMISSION_FACTORS = {
+    "Vegan": 30,
+    "Vegetarian": 40,
+    "Omnivore": 60,
+    "Heavy Meat Eater": 90,
+    "Car per km": 0.21,
+    "Electricity per kWh": 0.5,
+    "Flight per hour": 90
+}
+
+# Calculate emissions
+def calculate_emissions(diet, car_km, electricity_kwh, flight_hours):
+    diet_emission = EMISSION_FACTORS[diet]
+    car_emission = car_km * EMISSION_FACTORS["Car per km"]
+    electricity_emission = electricity_kwh * EMISSION_FACTORS["Electricity per kWh"]
+    flight_emission = (flight_hours / 4.0) * EMISSION_FACTORS["Flight per hour"]  # Weekly average
+    return diet_emission + car_emission + electricity_emission + flight_emission
+
+# Eco tips based on total emissions
+def get_eco_tip(total):
+    if total <= 100:
+        return "🌱 Great job! You're living sustainably. Keep it up!"
+    elif total <= 300:
+        return "♻️ You're doing okay. Try reducing car travel and electricity use."
+    else:
+        return "🚨 Your carbon footprint is high. Consider switching to a plant-based diet, flying less, and using energy-efficient appliances."
+
+# Submit button
+if st.button("🌍 Calculate My Emissions"):
+    total_emissions = calculate_emissions(diet_type, car_km_per_week, electricity_kwh_per_week, flight_hours_per_month)
+    tip = get_eco_tip(total_emissions)
+
+    st.success(f"Your estimated weekly carbon footprint is **{total_emissions:.2f} kg CO₂e**.")
+    st.markdown(f"**Eco Tip:** {tip}")
