@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Eco Calculator", layout="centered")
 
-st.title("🌿 Welcome to the Eco Calculator")
+st.title(" Welcome to the Eco Calculator")
 
 st.write("Estimate your weekly carbon emissions and get personalized eco tips!")
 
@@ -12,11 +12,11 @@ st.header("Lifestyle Details")
 diet_type = st.selectbox("🍽️ What best describes your diet?", 
     ["Vegan", "Vegetarian", "Omnivore", "Heavy Meat Eater"])
 
-car_km_per_week = st.number_input("🚗 How many kilometers do you travel by car per week?", min_value=0.0, step=1.0)
+car_km_per_week = st.number_input(" How many kilometers do you travel by car per week?", min_value=0.0, step=1.0)
 
-electricity_kwh_per_week = st.number_input("💡 How much electricity do you use per week (in kWh)?", min_value=0.0, step=1.0)
+electricity_kwh_per_week = st.number_input(" How much electricity do you use per week (in kWh)?", min_value=0.0, step=1.0)
 
-flight_hours_per_month = st.number_input("✈️ Approximate hours you spend flying per **month**?", min_value=0.0, step=1.0)
+flight_hours_per_month = st.number_input(" Approximate hours you spend flying per **month**?", min_value=0.0, step=1.0)
 
 # Emission factors (rough estimates in kg CO₂e per unit)
 EMISSION_FACTORS = {
@@ -40,14 +40,14 @@ def calculate_emissions(diet, car_km, electricity_kwh, flight_hours):
 # Eco tips based on total emissions
 def get_eco_tip(total):
     if total <= 100:
-        return "🌱 Great job! You're living sustainably. Keep it up!"
+        return " Great job! You're living sustainably. Keep it up!"
     elif total <= 300:
-        return "♻️ You're doing okay. Try reducing car travel and electricity use."
+        return " You're doing okay. Try reducing car travel and electricity use."
     else:
-        return "🚨 Your carbon footprint is high. Consider switching to a plant-based diet, flying less, and using energy-efficient appliances."
+        return " Your carbon footprint is high. Consider switching to a plant-based diet, flying less, and using energy-efficient appliances."
 
 # Submit button
-if st.button("🌍 Calculate My Emissions"):
+if st.button("Calculate My Emissions"):
     total_emissions = calculate_emissions(diet_type, car_km_per_week, electricity_kwh_per_week, flight_hours_per_month)
     tip = get_eco_tip(total_emissions)
 
