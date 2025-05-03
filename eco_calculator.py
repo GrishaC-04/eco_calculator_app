@@ -9,7 +9,7 @@ st.write("Estimate your weekly carbon emissions and get personalized eco tips!")
 # User input section
 st.header("Lifestyle Details")
 
-diet_type = st.selectbox("🍽️ What best describes your diet?", 
+diet_type = st.selectbox(" What best describes your diet?", 
     ["Vegan", "Vegetarian", "Omnivore", "Heavy Meat Eater"])
 
 car_km_per_week = st.number_input(" How many kilometers do you travel by car per week?", min_value=0.0, step=1.0)
