@@ -1,7 +1,7 @@
 # eco_calculator_app.py
 import streamlit as st
 
-st.title("🌱 Eco Calculator")
+st.title(" Eco Calculator")
 
 st.markdown("### Diet-related Emissions")
 meat_consumption = st.number_input("Enter your meat consumption (kg/week):", min_value=0.0)
